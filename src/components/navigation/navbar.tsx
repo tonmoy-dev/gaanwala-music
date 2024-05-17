@@ -12,6 +12,8 @@ import { MenuIcon, Search as SearchIcon, UserIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { ModeToggle } from "../theme/toggle-theme";
+import { Button } from "../ui/button";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -19,7 +21,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
@@ -47,45 +49,11 @@ export default function Navbar() {
                     </Link>
                   </div>
                 </div>
-                {/* --- Large screen navigation --- */}
-                {/* <div className="hidden lg:ml-6 lg:block">
-                  <div className="flex space-x-4">
-                    <a
-                      href="#"
-                      className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-                    >
-                      Home
-                    </a>
-                  </div>
-                </div> */}
-              </div>
-              {/* --- Large screen search & profile menu --- */}
-              <div className="flex flex-1 w-full px-2 hidden lg:block ml-6">
-                <div className="w-full max-w-lg lg:max-w-xs">
-                  <label htmlFor="search" className="sr-only">
-                    Search Songs
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <SearchIcon
-                        className="h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <input
-                      id="search"
-                      name="search"
-                      className="block w-full rounded-md border border-transparent bg-gray-700 py-2 pl-10 pr-3 leading-5 text-gray-300 placeholder-gray-400 focus:border-white focus:bg-white focus:text-gray-900 focus:outline-none focus:ring-white sm:text-sm"
-                      placeholder="Search Songs"
-                      type="search"
-                    />
-                  </div>
-                </div>
               </div>
               {/* --- Small screen menu --- */}
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
-                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -96,17 +64,21 @@ export default function Navbar() {
               </div>
               {/* --- Large screen profile menu --- */}
               <div className="hidden lg:ml-4 lg:block">
-                <div className="flex items-center">
-                  <Link href={"/login"} className="flex items-center gap-2">
-                    <UserIcon />
-                    <span>Login</span>
+                <div className="flex items-center gap-2">
+                  <ModeToggle />
+                  <Link href={"/login"}>
+                    <Button variant="ghost" className="px-3">
+                      <UserIcon className="me-1" />
+                      Login
+                    </Button>
                   </Link>
+
                   {/* Profile dropdown */}
-                  <Menu as="div" className="relative ml-4 flex-shrink-0">
+                  <Menu as="div" className="relative flex-shrink-0">
                     {({ open }) => (
                       <>
                         <div>
-                          <MenuButton className="flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <MenuButton className="flex rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <Image
                               className="h-8 w-8 rounded-full"
@@ -126,15 +98,15 @@ export default function Navbar() {
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.95 }}
                               anchor="bottom end"
-                              className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                              className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-zinc-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                               <MenuItem>
                                 {({ focus }) => (
                                   <a
                                     href="#"
                                     className={classNames(
-                                      focus ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      focus ? "bg-zinc-800" : "",
+                                      "block px-4 py-2 text-sm"
                                     )}
                                   >
                                     Your Profile
@@ -146,8 +118,8 @@ export default function Navbar() {
                                   <a
                                     href="#"
                                     className={classNames(
-                                      focus ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      focus ? "bg-zinc-800" : "",
+                                      "block px-4 py-2 text-sm "
                                     )}
                                   >
                                     Dashboard
@@ -159,8 +131,8 @@ export default function Navbar() {
                                   <a
                                     href="#"
                                     className={classNames(
-                                      focus ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      focus ? "bg-zinc-800" : "",
+                                      "block px-4 py-2 text-sm"
                                     )}
                                   >
                                     Logout
@@ -189,38 +161,6 @@ export default function Navbar() {
               // anchor="bottom"
               className="lg:hidden"
             >
-              {/* <div className="space-y-1 px-2 pt-2 pb-3">
-                <DisclosureButton
-                  as="a"
-                  href="#"
-                  className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                >
-                  Home
-                </DisclosureButton>
-              </div> */}
-              {/* --- Search Songs --- */}
-              <div className="flex flex-1 justify-center px-6 py-4 lg:hidden">
-                <div className="w-full max-w-lg lg:max-w-xs">
-                  <label htmlFor="search" className="sr-only">
-                    Search Songs
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <SearchIcon
-                        className="h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <input
-                      id="search"
-                      name="search"
-                      className="block w-full rounded-md border border-transparent bg-gray-700 py-2 pl-10 pr-3 leading-5 text-gray-300 placeholder-gray-400 focus:border-white focus:bg-white focus:text-gray-900 focus:outline-none focus:ring-white sm:text-sm"
-                      placeholder="Search Songs"
-                      type="search"
-                    />
-                  </div>
-                </div>
-              </div>
               <div className="border-t border-gray-700 pt-4 pb-3">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
@@ -236,7 +176,7 @@ export default function Navbar() {
                     <div className="text-base font-medium text-white">
                       Tom Cook
                     </div>
-                    <div className="text-sm font-medium text-gray-400">
+                    <div className="text-sm font-medium text-zinc-400">
                       tom@example.com
                     </div>
                   </div>
@@ -245,21 +185,21 @@ export default function Navbar() {
                   <DisclosureButton
                     as="a"
                     href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
                   >
                     Your Profile
                   </DisclosureButton>
                   <DisclosureButton
                     as="a"
                     href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
                   >
                     Dashboard
                   </DisclosureButton>
                   <DisclosureButton
                     as="a"
                     href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
                   >
                     Logout
                   </DisclosureButton>
