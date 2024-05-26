@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// username validation schema
 export const usernameValidation = z
   .string()
   .min(4, "Username must be atleast 2 characters")

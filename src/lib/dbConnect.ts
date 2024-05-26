@@ -22,7 +22,7 @@ export async function dbConnect(): Promise<void> {
     });
     connection.isConnected = db.connections[0].readyState;
 
-    console.log(db);
+    // console.log(db);
     // console.log(db.connections);
     console.log("DB connected succesfully");
   } catch (error) {
