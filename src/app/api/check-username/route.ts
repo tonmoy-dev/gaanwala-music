@@ -1,7 +1,7 @@
 import { dbConnect } from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
 import { usernameValidation } from "@/schemas/signUpSchema";
-import { createJSONResponse } from "@/utility/createResponse";
+import { JSONResponse } from "@/utility/createResponse";
 import { z } from "zod";
 
 // create query schema
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
       // validation is failed, finding error format for username
       const usernameErrors =
         validationResult.error.format().username?._errors || [];
-      return createJSONResponse(false, "Username is not valid", 400);
+      return JSONResponse(false, "Username is not valid", 400);
     }
 
     // if validation is successful then check username that exists on DB or not
@@ -38,13 +38,13 @@ export async function GET(request: Request) {
       isVerified: true,
     });
     if (existingVerifiedUser) {
-      return createJSONResponse(false, "Username is not available", 200);
+      return JSONResponse(false, "Username is not available", 200);
     }
 
     // at last username is unique then
-    return createJSONResponse(true, "Username is available", 200);
+    return JSONResponse(true, "Username is available", 200);
   } catch (error) {
     console.error("Getting error on checking username:", error);
-    return createJSONResponse(false, "Errors on checking username", 500);
+    return JSONResponse(false, "Errors on checking username", 500);
   }
 }

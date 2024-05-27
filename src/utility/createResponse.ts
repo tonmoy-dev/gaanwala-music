@@ -1,4 +1,4 @@
-export const createJSONResponse = (
+export const JSONResponse = (
   isSuccess: boolean,
   message: string,
   statusCode: number

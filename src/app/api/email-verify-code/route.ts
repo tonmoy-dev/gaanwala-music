@@ -1,6 +1,6 @@
 import { dbConnect } from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
-import { createJSONResponse } from "@/utility/createResponse";
+import { JSONResponse } from "@/utility/createResponse";
 
 // create POST request
 export async function POST(request: Request) {
@@ -16,16 +16,15 @@ export async function POST(request: Request) {
     // get user from DB
     const user = await UserModel.findOne({ username: decodedUsername });
 
-    if (!user) return createJSONResponse(false, "User not found", 404);
+    if (!user) return JSONResponse(false, "User not found", 404);
 
     // check if the verify code is correct & not expired
     const isCodeValid = user.verifyCode === code;
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
-    if (!isCodeValid)
-      return createJSONResponse(false, "Incorrect verify code", 400);
+    if (!isCodeValid) return JSONResponse(false, "Incorrect verify code", 400);
     else if (!isCodeNotExpired)
-      return createJSONResponse(
+      return JSONResponse(
         false,
         "Verify code has expired, please sign up again to get a new code",
         400
@@ -37,14 +36,10 @@ export async function POST(request: Request) {
       // update the user to DB
       await user.save();
 
-      return createJSONResponse(
-        true,
-        "User account verified successfully",
-        200
-      );
+      return JSONResponse(true, "User account verified successfully", 200);
     }
   } catch (error) {
     console.error("Getting errors while verifying user:", error);
-    return createJSONResponse(false, "Error verifying user", 500);
+    return JSONResponse(false, "Error verifying user", 500);
   }
 }
