@@ -51,10 +51,12 @@ export default function VerifyPage() {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-zinc-900">
+    <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-md p-12 space-y-8 bg-white dark:bg-black rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl tracking-tight mb-6">Verify Your Account</h1>
+          <h1 className="text-4xl font-semibold tracking-tight mb-6">
+            Verify Your Account
+          </h1>
           <p className="mb-4">Enter the verification code sent to your email</p>
         </div>
         <Form {...form}>
@@ -70,9 +72,7 @@ export default function VerifyPage() {
                 </FormItem>
               )}
             />
-            <Button className="bg-secondary text-white" type="submit">
-              Verify
-            </Button>
+            <Button type="submit">Verify</Button>
           </form>
         </Form>
       </div>

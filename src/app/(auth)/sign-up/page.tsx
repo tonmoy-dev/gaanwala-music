@@ -85,7 +85,7 @@ export default function SignUpPage() {
       });
 
       // navigate to verify page
-      // router.replace(`/verify/${username}`);
+      router.replace(`/verify/${data.username}`);
     } catch (error) {
       console.error("Error on Sign Up:", error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -103,7 +103,7 @@ export default function SignUpPage() {
   };
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md bg-black">
+      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md bg-white dark:bg-black my-10">
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join To Gaanwala Music

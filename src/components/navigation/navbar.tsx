@@ -14,19 +14,26 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { ModeToggle } from "../theme/toggle-theme";
 import { Button } from "../ui/button";
+import { useSession, signOut } from "next-auth/react";
+import { User } from "next-auth";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
+  // take data (session active or not) from session
+  const { data: session } = useSession();
+  // take user data from session
+  const user: User = session?.user as User; // added assertion type here
+
   return (
-    <Disclosure as="nav" className="">
+    <Disclosure as="nav" className="shadow bg-white dark:bg-gray-900">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="flex items-center px-2 lg:px-0">
+              <div className="flex items-center px-2 lg:px-0 gap-10">
                 <div className="flex-shrink-0">
                   {/* --- Logo --- */}
                   <div className="flex items-center justify-center">
@@ -49,6 +56,7 @@ export default function Navbar() {
                     </Link>
                   </div>
                 </div>
+                {session ? <span>Welcome, {user?.username}</span> : ""}
               </div>
               {/* --- Small screen menu --- */}
               <div className="flex lg:hidden">
@@ -66,85 +74,92 @@ export default function Navbar() {
               <div className="hidden lg:ml-4 lg:block">
                 <div className="flex items-center gap-2">
                   <ModeToggle />
-                  <Link href={"/login"}>
-                    <Button variant="ghost" className="px-3">
-                      <UserIcon className="me-1" />
-                      Login
-                    </Button>
-                  </Link>
-
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative flex-shrink-0">
-                    {({ open }) => (
-                      <>
-                        <div>
-                          <MenuButton className="flex rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span className="sr-only">Open user menu</span>
-                            <Image
-                              className="h-8 w-8 rounded-full"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                              width={256}
-                              height={256}
-                              alt=""
-                            />
-                          </MenuButton>
-                        </div>
-                        <AnimatePresence>
-                          {open && (
-                            <MenuItems
-                              static
-                              as={motion.div}
-                              initial={{ opacity: 0, scale: 0.95 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.95 }}
-                              anchor="bottom end"
-                              className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-zinc-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            >
-                              <MenuItem>
-                                {({ focus }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      focus ? "bg-zinc-800" : "",
-                                      "block px-4 py-2 text-sm"
+                  {session ? (
+                    <>
+                      {/* Profile dropdown */}
+                      <Menu as="div" className="relative flex-shrink-0">
+                        {({ open }) => (
+                          <>
+                            <div>
+                              <MenuButton className="flex rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <span className="sr-only">Open user menu</span>
+                                <Image
+                                  className="h-8 w-8 rounded-full"
+                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  width={256}
+                                  height={256}
+                                  alt=""
+                                />
+                              </MenuButton>
+                            </div>
+                            <AnimatePresence>
+                              {open && (
+                                <MenuItems
+                                  static
+                                  as={motion.div}
+                                  initial={{ opacity: 0, scale: 0.95 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.95 }}
+                                  anchor="bottom end"
+                                  className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-zinc-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                >
+                                  <MenuItem>
+                                    {({ focus }) => (
+                                      <a
+                                        href="#"
+                                        className={classNames(
+                                          focus ? "bg-zinc-800" : "",
+                                          "block px-4 py-2 text-sm"
+                                        )}
+                                      >
+                                        Your Profile
+                                      </a>
                                     )}
-                                  >
-                                    Your Profile
-                                  </a>
-                                )}
-                              </MenuItem>
-                              <MenuItem>
-                                {({ focus }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      focus ? "bg-zinc-800" : "",
-                                      "block px-4 py-2 text-sm "
+                                  </MenuItem>
+                                  <MenuItem>
+                                    {({ focus }) => (
+                                      <a
+                                        href="#"
+                                        className={classNames(
+                                          focus ? "bg-zinc-800" : "",
+                                          "block px-4 py-2 text-sm "
+                                        )}
+                                      >
+                                        Dashboard
+                                      </a>
                                     )}
-                                  >
-                                    Dashboard
-                                  </a>
-                                )}
-                              </MenuItem>
-                              <MenuItem>
-                                {({ focus }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      focus ? "bg-zinc-800" : "",
-                                      "block px-4 py-2 text-sm"
+                                  </MenuItem>
+                                  <MenuItem>
+                                    {({ focus }) => (
+                                      <a
+                                        href="#"
+                                        className={classNames(
+                                          focus ? "bg-zinc-800" : "",
+                                          "block px-4 py-2 text-sm"
+                                        )}
+                                        onClick={() => signOut()}
+                                      >
+                                        Logout
+                                      </a>
                                     )}
-                                  >
-                                    Logout
-                                  </a>
-                                )}
-                              </MenuItem>
-                            </MenuItems>
-                          )}
-                        </AnimatePresence>
-                      </>
-                    )}
-                  </Menu>
+                                  </MenuItem>
+                                </MenuItems>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
+                      </Menu>
+                    </>
+                  ) : (
+                    <>
+                      <Link href={"/sign-in"}>
+                        <Button variant="ghost" className="px-3">
+                          <UserIcon className="me-1" />
+                          Sign In
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
