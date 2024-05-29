@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const verifySchema = z.object({
+export const signInSchema = z.object({
   identifier: z.string(),
   password: z.string(),
 });
 
-// identifier means username or email
+// identifier - it can be username or email
