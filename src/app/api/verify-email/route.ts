@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   try {
     // get username & verify code from request
-    const { username, code } = await request.json();
+    const { username, verifyCode } = await request.json();
 
     // decoded URI params
     const decodedUsername = decodeURIComponent(username);
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     if (!user) return JSONResponse(false, "User not found", 404);
 
     // check if the verify code is correct & not expired
-    const isCodeValid = user.verifyCode === code;
+    const isCodeValid = user.verifyCode === verifyCode;
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
     if (!isCodeValid) return JSONResponse(false, "Incorrect verify code", 400);

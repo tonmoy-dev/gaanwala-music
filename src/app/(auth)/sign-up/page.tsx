@@ -85,7 +85,9 @@ export default function SignUpPage() {
       });
 
       // navigate to verify page
-      router.replace(`/verify/${data.username}`);
+      if (response.status === 201) {
+        router.replace(`/verify/${data.username}`);
+      }
     } catch (error) {
       console.error("Error on Sign Up:", error);
       const axiosError = error as AxiosError<ApiResponse>;

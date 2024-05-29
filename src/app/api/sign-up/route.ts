@@ -26,13 +26,6 @@ export async function POST(request: Request) {
     });
     if (existingUserVerifiedByUserName) {
       return JSONResponse(false, "Username is already taken.", 400);
-      //  Response.json(
-      //   {
-      //     success: false,
-      //     message: "Username is already taken.",
-      //   },
-      //   { status: 400 }
-      // );
     }
     // check existing user by  email
     const existingUserByEmail = await UserModel.findOne({
@@ -43,13 +36,6 @@ export async function POST(request: Request) {
       // user email exists and it's verified
       if (existingUserByEmail.isVerified) {
         return JSONResponse(false, "User already exists with this email", 400);
-        // return Response.json(
-        //   {
-        //     success: false,
-        //     message: "User already exists with this email",
-        //   },
-        //   { status: 400 }
-        // );
       } else {
         // user email exists but not verified
         // save the updated user
@@ -80,16 +66,10 @@ export async function POST(request: Request) {
       username,
       verifyCode
     );
+
     // if email sending is failed
     if (!emailResponse.success) {
       return JSONResponse(false, emailResponse.message, 500);
-      // return Response.json(
-      //   {
-      //     success: false,
-      //     message: emailResponse.message,
-      //   },
-      //   { status: 500 }
-      // );
     }
 
     // after successful registration
@@ -98,25 +78,9 @@ export async function POST(request: Request) {
       "User registered successfully. Please verify your email.",
       201
     );
-    // return Response.json(
-    //   {
-    //     success: true,
-    //     message: "User registered successfully. Please verify your email.",
-    //   },
-    //   { status: 201 }
-    // );
   } catch (error) {
     console.error("Error on registering user", error);
     // send response for error
     return JSONResponse(false, "Error on registering user", 500);
-    // return Response.json(
-    //   {
-    //     success: false,
-    //     message: "Error on registering user",
-    //   },
-    //   {
-    //     status: 500,
-    //   }
-    // );
   }
 }

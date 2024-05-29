@@ -28,7 +28,7 @@ export default function Navbar() {
   const user: User = session?.user as User; // added assertion type here
 
   return (
-    <Disclosure as="nav" className="shadow bg-white dark:bg-gray-900">
+    <Disclosure as="nav" className="shadow dark:bg-slate-900">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
@@ -60,15 +60,31 @@ export default function Navbar() {
               </div>
               {/* --- Small screen menu --- */}
               <div className="flex lg:hidden">
-                {/* Mobile menu button */}
-                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </DisclosureButton>
+                {session ? (
+                  <>
+                    {/* Mobile menu button */}
+                    <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-slate-400 hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                      <span className="sr-only">Open main menu</span>
+                      {open ? (
+                        <XIcon className="block h-6 w-6" aria-hidden="true" />
+                      ) : (
+                        <MenuIcon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </DisclosureButton>
+                  </>
+                ) : (
+                  <>
+                    <Link href={"/sign-in"}>
+                      <Button variant="ghost" className="px-3">
+                        <UserIcon className="me-1" />
+                        Sign In
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
               {/* --- Large screen profile menu --- */}
               <div className="hidden lg:ml-4 lg:block">
@@ -108,7 +124,7 @@ export default function Navbar() {
                                       <a
                                         href="#"
                                         className={classNames(
-                                          focus ? "bg-zinc-800" : "",
+                                          focus ? "bg-slate-800" : "",
                                           "block px-4 py-2 text-sm"
                                         )}
                                       >
@@ -121,7 +137,7 @@ export default function Navbar() {
                                       <a
                                         href="#"
                                         className={classNames(
-                                          focus ? "bg-zinc-800" : "",
+                                          focus ? "bg-slate-800" : "",
                                           "block px-4 py-2 text-sm "
                                         )}
                                       >
@@ -134,7 +150,7 @@ export default function Navbar() {
                                       <a
                                         href="#"
                                         className={classNames(
-                                          focus ? "bg-zinc-800" : "",
+                                          focus ? "bg-slate-800" : "",
                                           "block px-4 py-2 text-sm"
                                         )}
                                         onClick={() => signOut()}
@@ -166,62 +182,73 @@ export default function Navbar() {
           </div>
 
           {/* --- Small screen navigation --- */}
-          <AnimatePresence>
-            <DisclosurePanel
-              static={false}
-              as={motion.div}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              // anchor="bottom"
-              className="lg:hidden"
-            >
-              <div className="border-t border-gray-700 pt-4 pb-3">
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <Image
-                      className="h-10 w-10 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      width={256}
-                      height={256}
-                      alt=""
-                    />
+          {session && (
+            <>
+              <AnimatePresence>
+                <DisclosurePanel
+                  static={false}
+                  as={motion.div}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  // anchor="bottom"
+                  className="lg:hidden"
+                >
+                  <div className="border-t border-gray-700 pt-4 pb-3">
+                    {session ? (
+                      <>
+                        <div className="flex items-center px-5">
+                          <div className="flex-shrink-0">
+                            <Image
+                              className="h-10 w-10 rounded-full"
+                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                              width={256}
+                              height={256}
+                              alt=""
+                            />
+                          </div>
+                          <div className="ml-3">
+                            <div className="text-base font-medium text-white">
+                              {user.username}
+                            </div>
+                            <div className="text-sm font-medium text-slate-400">
+                              {user.email}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-3 space-y-1 px-2">
+                          <DisclosureButton
+                            as="a"
+                            href="#"
+                            className="block rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
+                          >
+                            Your Profile
+                          </DisclosureButton>
+                          <DisclosureButton
+                            as="a"
+                            href="#"
+                            className="block rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
+                          >
+                            Dashboard
+                          </DisclosureButton>
+                          <DisclosureButton
+                            as="a"
+                            href="#"
+                            className="block rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
+                            onClick={() => signOut()}
+                          >
+                            Logout
+                          </DisclosureButton>
+                        </div>
+                      </>
+                    ) : (
+                      <p>welcome</p>
+                    )}
                   </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-white">
-                      Tom Cook
-                    </div>
-                    <div className="text-sm font-medium text-zinc-400">
-                      tom@example.com
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-3 space-y-1 px-2">
-                  <DisclosureButton
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
-                  >
-                    Your Profile
-                  </DisclosureButton>
-                  <DisclosureButton
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
-                  >
-                    Dashboard
-                  </DisclosureButton>
-                  <DisclosureButton
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white"
-                  >
-                    Logout
-                  </DisclosureButton>
-                </div>
-              </div>
-            </DisclosurePanel>
-          </AnimatePresence>
+                </DisclosurePanel>
+              </AnimatePresence>
+            </>
+          )}
         </>
       )}
     </Disclosure>

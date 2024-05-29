@@ -1,14 +1,11 @@
 import {
   Body,
   Container,
-  Column,
   Head,
   Heading,
   Html,
   Img,
-  Link,
   Preview,
-  Row,
   Section,
   Text,
 } from "@react-email/components";
@@ -18,10 +15,6 @@ interface EmailVerificationProps {
   username: string;
   validationCode: string;
 }
-
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 
 export const EmailVerification = ({
   username,
@@ -34,9 +27,9 @@ export const EmailVerification = ({
       <Container style={container}>
         <Section style={logoContainer}>
           <Img
-            src={`${baseUrl}/logo.png`}
-            width="120"
-            height="36"
+            src="https://i.ibb.co/0qHN8mj/logo.png"
+            width="100"
+            height="60"
             alt="Gaanwala Music"
           />
         </Section>
@@ -44,8 +37,8 @@ export const EmailVerification = ({
         <Heading style={h1}>Confirm your email address</Heading>
         <Text style={heroText}>
           Hi {username}, <br /> Thank you so much for signing up to Gaanwala
-          Music. Please use the following email verification code to complete
-          the process.
+          Music. Please use the following verification code to verify your
+          email.
         </Text>
 
         <Section style={codeBox}>
@@ -58,22 +51,9 @@ export const EmailVerification = ({
         </Text>
 
         <Section>
-          <Row style={footerLogos}>
-            <Column style={{ width: "66%" }}>
-              <Img
-                src={`/logo.png`}
-                width="120"
-                height="36"
-                alt="Gaanwala Music"
-              />
-            </Column>
-          </Row>
-        </Section>
-
-        <Section>
           <Text style={footerText}>
             ©2024 Gaanwala Music, Listen music online. <br />
-            500 Howard Street, San Francisco, CA 94105, USA <br />
+            Rxdevs, BD. <br />
             <br />
             All rights reserved.
           </Text>
@@ -95,13 +75,6 @@ const footerText = {
   lineHeight: "15px",
   textAlign: "left" as const,
   marginBottom: "50px",
-};
-
-const footerLogos = {
-  marginBottom: "32px",
-  paddingLeft: "8px",
-  paddingRight: "8px",
-  width: "100%",
 };
 
 const main = {

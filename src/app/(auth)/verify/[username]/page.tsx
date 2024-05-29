@@ -24,21 +24,25 @@ export default function VerifyPage() {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
+    defaultValues: {
+      verifyCode: "",
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
-      const response = await axios.post<ApiResponse>(`/api/verify-code`, {
+      const response = await axios.post<ApiResponse>(`/api/verify-email`, {
         username: params.username,
-        code: data.code,
+        verifyCode: data.verifyCode,
       });
 
       toast({
         title: "Success",
         description: response.data.message,
       });
-
-      router.replace("/sign-in");
+      if (response.status === 200) {
+        router.replace("/sign-in");
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -62,7 +66,7 @@ export default function VerifyPage() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
-              name="code"
+              name="verifyCode"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
